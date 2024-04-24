@@ -6,7 +6,7 @@ class Server
 	constructor()
 	{
 		this.app = express()
-		this.port = process.env.PORT
+		this.port = process.env.PORT || 4200
 		// Es importante la ubicacion de la siguiente linea debe estar antes de las dos ultimas.
 		this.usuariosPath = '/api/Usuarios';
 		
