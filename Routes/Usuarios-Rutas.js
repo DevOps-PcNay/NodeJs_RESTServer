@@ -13,6 +13,5 @@ router.delete('/', usuariosDel)		// NO se coloca "()", es solo una referencia.
 
 router.post('/', usuariosPost)		// NO se coloca "()", es solo una referencia.
 
-
 module.exports = router;
 
