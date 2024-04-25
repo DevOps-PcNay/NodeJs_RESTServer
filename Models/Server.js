@@ -1,5 +1,6 @@
 const express = require('express')
-const cors = require('cors')
+const cors = require('cors');
+const { dbConnection } = require('../Database/Config-DB');
 
 class Server 
 {
@@ -10,6 +11,10 @@ class Server
 		// Es importante la ubicacion de la siguiente linea debe estar antes de las dos ultimas.
 		this.usuariosPath = '/api/Usuarios';
 		
+		// Conectando a la base de datos de "Mongo Atlas"
+		// Se llama cuando se crea el objecto "Server"
+		this.connectDB();
+
 		// Middlewares = Anaden mas funcional al Web Server, es una funcion que se siempre se va ejecutar cuando se levante el servidor
 		this.middlewares();
 
@@ -19,6 +24,10 @@ class Server
 
 	// Definiendo Metodos
 
+	async connectDB()
+	{
+		await dbConnection() 	// Se definio en "Database/Config-DB.js"		
+	}
 	// rutas
 	routes()
 	{
