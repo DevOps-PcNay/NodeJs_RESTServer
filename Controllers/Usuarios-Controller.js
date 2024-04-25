@@ -1,4 +1,6 @@
 const { response, request } = require('express')
+const Usuario = require ('../Models/Usuario');
+
 
 // Cuando se agrega esta variable, nos mostrara el menu de la funcion que se desestructuro de "expres" llamada "Response"
 
@@ -41,18 +43,29 @@ const usuariosDel = (req,res = response) =>
 		msg:'delete API - Controllers'
 	});
 }
-const usuariosPost = (req,res = response) =>
+const usuariosPost = async (req,res = response) =>
 {
 	// Obtiene lo que se envia en el "body" de la peticion POST.
 	// Se limpia para evitar inyeccion de SQL, entre otras validaciones.
 	//const envio_Body = req.body; 
-	const {nombre, edad } = req.body
+	// const {nombre, edad } = req.body
+	const body_contenido  = req.body;
+	
+	// Si en el contenido del "Body" se manda una coleccion(campo) que no existe "Mongoose" lo ignora y se grabara en el documento (tabla)
+	const usuario_instancia = new Usuario(body_contenido);
+
+	// Para grabar la Collecion en el Documento 
+	// Esperar que termine de grabar
+	// Si no se manda en el Body del POST las colecciones(campos) completo se queda con el mensaje de grabando, sin que termine, hasta que se aborte el programa.
+	await usuario_instancia.save();
+
 
 	res.status(201).json({
 		ok:true,
 		msg:'POST API - Controllers',
-		nombre,
-		edad
+		//nombre,
+		//edad
+		usuario_instancia
 	});
 }
 

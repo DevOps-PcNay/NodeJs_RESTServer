@@ -9,8 +9,8 @@ const dbConnection = async() =>
 		await mongoose.connect(process.env.MONGODB_CNN,{
 			//useNewUrlParser:true,				Para la version de NodeJs 20.12.1 es depreciado
 			//useUnifiedTopology:true,		Para la version de NodeJs 20.12.1 es depreciado
-			//useCreateIndex:true					Para la version de NodeJs 20.12.1 es Soportado
-			//useFindAndModify:false			Para la version de NodeJs 20.12.1 es Soportado
+			//useCreateIndex:true					Para la version de NodeJs 20.12.1 NO es Soportado
+			//useFindAndModify:false			Para la version de NodeJs 20.12.1 NO es Soportado
 		});
 
 		console.log ("Base De Datos Online");
