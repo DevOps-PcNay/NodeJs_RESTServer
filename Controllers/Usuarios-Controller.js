@@ -1,6 +1,7 @@
 const { response, request } = require('express')
 const Usuario = require ('../Models/Usuario');
-const bcryptjs = require('bcryptjs')
+const bcryptjs = require('bcryptjs');
+const { validationResult } = require('express-validator');
 
 
 // Cuando se agrega esta variable, nos mostrara el menu de la funcion que se desestructuro de "expres" llamada "Response"
@@ -9,6 +10,14 @@ const usuariosPost = async (req,res = response) =>
 {
 	// Obtiene lo que se envia en el "body" de la peticion POST.
 	// Se limpia para evitar inyeccion de SQL, entre otras validaciones.
+
+	// Realiza las validaciones que se obtuvieron del middleware de POST, "check" 
+	const errors = validationResult(req)
+	if (!errors.isEmpty())
+	{
+		return res.status(400).json(errors)	
+	}
+	
 	//const envio_Body = req.body; 
 	// const {nombre, edad } = req.body
 	// const body_contenido  = req.body;
@@ -19,6 +28,14 @@ const usuariosPost = async (req,res = response) =>
 
 	// Antes de encriptar la contrasena se debe realizar lo siguiente:
 	// Verificar si el correo existe:
+	// Se utiliza instrucciones de mongoDb para buscar el correo.
+	const existeEmail = await Usuario.findOne({correo:correo})
+	if (existeEmail)
+	{
+		return res.status(400).json({
+			msg:'El correo ya existe'
+		})
+	}
 
 
 	// Encriptar la contrasena (Hash de la contrasena)
@@ -29,13 +46,10 @@ const usuariosPost = async (req,res = response) =>
 	// password = Es el que se destructuro en "const {nombre,correo,password,rol } = req.body;"
 	usuario_instancia.password = bcryptjs.hashSync(password,salt)
 
-
-
 	// Para grabar la Collecion en el Documento 
 	// Esperar que termine de grabar
 	// Si no se manda en el Body del POST las colecciones(campos) completo se queda con el mensaje de grabando, sin que termine, hasta que se aborte el programa.
 	await usuario_instancia.save();
-
 
 	res.status(201).json({
 		ok:true,
