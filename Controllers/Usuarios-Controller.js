@@ -1,7 +1,7 @@
 const { response, request } = require('express')
 const Usuario = require ('../Models/Usuario');
 const bcryptjs = require('bcryptjs');
-const { validationResult } = require('express-validator');
+
 
 
 // Cuando se agrega esta variable, nos mostrara el menu de la funcion que se desestructuro de "expres" llamada "Response"
@@ -11,12 +11,6 @@ const usuariosPost = async (req,res = response) =>
 	// Obtiene lo que se envia en el "body" de la peticion POST.
 	// Se limpia para evitar inyeccion de SQL, entre otras validaciones.
 
-	// Realiza las validaciones que se obtuvieron del middleware de POST, "check" 
-	const errors = validationResult(req)
-	if (!errors.isEmpty())
-	{
-		return res.status(400).json(errors)	
-	}
 	
 	//const envio_Body = req.body; 
 	// const {nombre, edad } = req.body
